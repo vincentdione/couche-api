@@ -144,7 +144,25 @@
                   </annotationProcessorPaths>
                 </configuration>
               </plugin>
+ <plugin>
+    <artifactId>maven-compiler-plugin</artifactId>
+    <version>${compiler-plugin.version}</version>
+    <configuration>
+      <annotationProcessorPaths>
+        <path>
+          <groupId>org.projectlombok</groupId>
+          <artifactId>lombok</artifactId>
+          <version>1.18.80</version>
+        </path>
 
+        <path>
+          <groupId>org.mapstruct</groupId>
+          <artifactId>mapstruct-processor</artifactId>
+          <version>1.4.2.Final</version>
+        </path>
+      </annotationProcessorPaths>
+    </configuration>
+  </plugin>
         </plugins>
     </build>
 
