@@ -1,0 +1,59 @@
+quarkus:
+  datasource:
+    password: postgres
+    devservices:
+      enabled: 'true'
+    username: postgres
+    db-kind: 'postgresql '
+  oidc:
+    client-id: couche-api
+    tls:
+      verification: none
+    credentials:
+      secret: YnCoC9GDrywjGXZBGoeNT1p7BxWHZHpL
+    auth-server-url: http://127.0.0.1:8090/realms/couche
+  keycloak:
+    policy-enforcer:
+      paths:
+        public3:
+          enforcement-mode: DISABLED
+          path: /q/openapi
+        public2:
+          path: /q/swagger-ui/*
+          enforcement-mode: DISABLED
+      enable: 'true'
+    devservices:
+      enabled: 'false'
+  console:
+    color: 'true'
+  hibernate-orm:
+    dialect: org.hibernate.dialect.PostgreSQLDialect
+    database:
+      generation: update
+    sql:
+      format: 'true'
+    unsupported-properties:
+      '"hibernate':
+        physical_naming_strategy": org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+    sql-load-script: import.sql
+    globally-quoted-identifiers: 'true'
+    jdbc:
+      time-zone: UTC
+    log:
+      sql: 'true'
+  log:
+    file:
+      enable: 'true'
+      path: ./logs/application.log
+      format: '%d{yyyy-MM-dd HH:mm:ss} %-5p [%c] (%t) %s%e%n'
+    console:
+      level: DEBUG
+      format: '%d{yyyy-MM-dd HH:mm:ss} %-5p [%c] (%t) %s%e%n'
+  smallrye-openapi:
+    security-scheme: oidc
+    security-scheme-name: Keycloak
+    oidc-open-id-connect-url: http://127.0.0.1:8090/realms/couche/.well-known/openid-configuration
+  swagger-ui:
+    always-include: 'true'
+  http:
+    port: '8081'

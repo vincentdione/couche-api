@@ -7,7 +7,7 @@
 
     <properties>
         <compiler-plugin.version>3.13.0</compiler-plugin.version>
-        <maven.compiler.release>21</maven.compiler.release>
+        <maven.compiler.release>17</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
@@ -15,6 +15,7 @@
         <quarkus.platform.version>3.16.1</quarkus.platform.version>
         <skipITs>true</skipITs>
         <surefire-plugin.version>3.5.0</surefire-plugin.version>
+        <org.mapstruct.version>1.6.0</org.mapstruct.version>
     </properties>
 
     <dependencyManagement>
@@ -44,12 +45,54 @@
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-keycloak-authorization</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
             <artifactId>quarkus-hibernate-orm-panache</artifactId>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-jdbc-postgresql</artifactId>
         </dependency>
+
+        <!-- Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.34</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- MapStruct -->
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${org.mapstruct.version}</version>
+        </dependency>
+
+        <!-- MapStruct Processor (pour la génération de code) -->
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+            <version>${org.mapstruct.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-hibernate-validator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-smallrye-openapi</artifactId>
+        </dependency>
+
+        <!-- Quarkus Dependency for CDI -->
+<!--        <dependency>-->
+<!--            <groupId>io.quarkus</groupId>-->
+<!--            <artifactId>quarkus-resteasy</artifactId>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-arc</artifactId>
@@ -66,6 +109,11 @@
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-panache-mock</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -101,6 +149,7 @@
                 <configuration>
                     <systemPropertyVariables>
                         <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
+                        <!--suppress UnresolvedMavenProperty -->
                         <maven.home>${maven.home}</maven.home>
                     </systemPropertyVariables>
                 </configuration>
@@ -120,6 +169,7 @@
                     <systemPropertyVariables>
                         <native.image.path>${project.build.directory}/${project.build.finalName}-runner</native.image.path>
                         <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
+                        <!--suppress UnresolvedMavenProperty -->
                         <maven.home>${maven.home}</maven.home>
                     </systemPropertyVariables>
                 </configuration>
@@ -133,36 +183,17 @@
                     <path>
                       <groupId>org.projectlombok</groupId>
                       <artifactId>lombok</artifactId>
-                      <version>1.18.80</version>
+                        <version>1.18.34</version>
                     </path>
             
                     <path>
                       <groupId>org.mapstruct</groupId>
                       <artifactId>mapstruct-processor</artifactId>
-                      <version>1.4.2.Final</version>
+                        <version>${org.mapstruct.version}</version>
                     </path>
                   </annotationProcessorPaths>
                 </configuration>
               </plugin>
- <plugin>
-    <artifactId>maven-compiler-plugin</artifactId>
-    <version>${compiler-plugin.version}</version>
-    <configuration>
-      <annotationProcessorPaths>
-        <path>
-          <groupId>org.projectlombok</groupId>
-          <artifactId>lombok</artifactId>
-          <version>1.18.80</version>
-        </path>
-
-        <path>
-          <groupId>org.mapstruct</groupId>
-          <artifactId>mapstruct-processor</artifactId>
-          <version>1.4.2.Final</version>
-        </path>
-      </annotationProcessorPaths>
-    </configuration>
-  </plugin>
         </plugins>
     </build>
 
